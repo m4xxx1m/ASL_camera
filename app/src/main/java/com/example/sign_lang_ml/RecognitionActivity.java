@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
+//import android.util.Log;
 import android.view.Gravity;
 import android.view.SurfaceView;
 import android.view.View;
@@ -26,7 +26,7 @@ import java.io.IOException;
 
 public class RecognitionActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2/*, View.OnClickListener*/ {
     private static final int CLASSIFY_INTERVAL = 20;
-    private static final String TAG = "RecognitionActivity";
+//    private static final String TAG = "RecognitionActivity";
 
     private Classifier classifier;
     private Mat frame;
@@ -104,10 +104,10 @@ public class RecognitionActivity extends AppCompatActivity implements CameraBrid
         super.onResume();
 
         if (OpenCVLoader.initDebug()) {
-            Log.d(TAG, "Connected camera.");
+//            Log.d(TAG, "Connected camera.");
             baseloadercallback.onManagerConnected(BaseLoaderCallback.SUCCESS);
         } else {
-            Log.d(TAG, "Camera not connected.");
+//            Log.d(TAG, "Camera not connected.");
             OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, this, baseloadercallback);
         }
 
@@ -119,7 +119,8 @@ public class RecognitionActivity extends AppCompatActivity implements CameraBrid
         try {
             classifier = new Classifier(this);
         } catch (IOException e) {
-            Log.e(TAG, "Failed to initialize classifier", e);
+//            Log.e(TAG, "Failed to initialize classifier", e);
+            e.printStackTrace();
         }
     }
 
@@ -158,7 +159,7 @@ public class RecognitionActivity extends AppCompatActivity implements CameraBrid
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
         float mh = mRGBA.height();
         float cw = (float) Resources.getSystem().getDisplayMetrics().widthPixels;
-        float scale = mh / cw * 0.7f;
+        float scale = mh / cw;
 
         mRGBA = inputFrame.rgba();
         frame = classifier.processMat(mRGBA);
@@ -175,7 +176,7 @@ public class RecognitionActivity extends AppCompatActivity implements CameraBrid
                         mRGBA.rows() / 2f - (mRGBA.cols() * scale / 2)),
                 new Point(mRGBA.cols() / 2f + (mRGBA.cols() * scale / 2),
                         mRGBA.rows() / 2f + (mRGBA.cols() * scale / 2)),
-                new Scalar(0, 255, 0), 1);
+                new Scalar(255, 255, 0), 2);
 
         System.gc();
         return mRGBA;
@@ -202,7 +203,7 @@ public class RecognitionActivity extends AppCompatActivity implements CameraBrid
                     resultTextView.setText(text);
                 }
             });
-            Log.d(TAG, "Guess: " + classifier.getResult() + " Probability: " + classifier.getProbability());
+//            Log.d(TAG, "Guess: " + classifier.getResult() + " Probability: " + classifier.getProbability());
         }
     }
 }

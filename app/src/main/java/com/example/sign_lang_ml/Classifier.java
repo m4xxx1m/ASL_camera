@@ -2,7 +2,7 @@ package com.example.sign_lang_ml;
 
 import android.app.Activity;
 import android.content.res.Resources;
-import android.util.Log;
+//import android.util.Log;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -18,14 +18,13 @@ import java.nio.MappedByteBuffer;
 import java.util.List;
 
 class Classifier {
-    private static final String TAG = "Tflite";
+//    private static final String TAG = "Tflite";
     private static final String MODEL = "mobilenet.tflite";
     private static final String LABEL = "labels.txt";
     private static final int DIM_HEIGHT = 80;
     private static final int DIM_WIDTH = 80;
     private static final int BYTES = 4;
     private static String result;
-    private static float probability;
     private Interpreter tflite;
     private final List<String> labels;
     private final ByteBuffer imgData;
@@ -53,9 +52,9 @@ class Classifier {
         return result;
     }
 
-    float getProbability() {
-        return probability;
-    }
+//    float getProbability() {
+//        return probability;
+//    }
 
     void close() {
         if (tflite != null) {
@@ -67,7 +66,7 @@ class Classifier {
     Mat processMat(Mat mat) {
         float mh = mat.height();
         float cw = (float) Resources.getSystem().getDisplayMetrics().widthPixels;
-        float scale = mh / cw * 0.7f;
+        float scale = mh / cw;
         Rect roi = new Rect((int) (mat.cols() / 2 - (mat.cols() * scale / 2)),
                 (int) (mat.rows() / 2 - (mat.cols() * scale / 2)),
                 (int) (mat.cols() * scale),
@@ -90,7 +89,7 @@ class Classifier {
         imgData.rewind();
         for (int i = 0; i < DIM_HEIGHT; ++i) {
             for (int j = 0; j < DIM_WIDTH; ++j) {
-                Log.d(TAG, "" + mat.get(i, j)[0]);
+//                Log.d(TAG, "" + mat.get(i, j)[0]);
                 imgData.putFloat((float) mat.get(i, j)[0] / 255.0f);
             }
         }
@@ -101,10 +100,10 @@ class Classifier {
             tflite.run(imgData, probArray);
         }
         processResults(probArray[0]);
-        for (int i = 0; i < labels.size(); i++) {
-            Log.d(TAG, labels.get(i) + ": " + probArray[0][i]);
-        }
-        Log.d(TAG, "Guess: " + getResult());
+//        for (int i = 0; i < labels.size(); i++) {
+//            Log.d(TAG, labels.get(i) + ": " + probArray[0][i]);
+//        }
+//        Log.d(TAG, "Guess: " + getResult());
     }
 
     private void processResults(float[] prob) {
@@ -114,12 +113,13 @@ class Classifier {
                 max = i;
             }
         }
+//        float probability;
         if (prob[max] > 0.8f) {
             result = labels.get(max);
-            probability = prob[max];
+//            probability = prob[max];
         } else {
             result = "NOTHING";
-            probability = 1.0f;
+//            probability = 1.0f;
         }
     }
 }
