@@ -3,7 +3,6 @@ package com.example.sign_lang_ml;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.util.Log;
-
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -12,13 +11,11 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.tensorflow.lite.Interpreter;
 import org.tensorflow.lite.support.common.FileUtil;
-
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.MappedByteBuffer;
 import java.util.List;
-import java.util.Random;
 
 class Classifier {
     private static final String TAG = "Tflite";
@@ -30,9 +27,9 @@ class Classifier {
     private static String result;
     private static float probability;
     private Interpreter tflite;
-    private List<String> labels;
-    private ByteBuffer imgData;
-    private float[][] probArray;
+    private final List<String> labels;
+    private final ByteBuffer imgData;
+    private final float[][] probArray;
 
     Classifier(Activity activity) throws IOException {
         MappedByteBuffer tfliteModel = FileUtil.loadMappedFile(activity, MODEL);
@@ -83,24 +80,9 @@ class Classifier {
 
         Mat element1 = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new org.opencv.core.Size(3, 3));
         Imgproc.dilate(edges, edges, element1);
-        //Mat element = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new org.opencv.core.Size(2,2));
-        //Imgproc.erode(edges, edges, element);
 
         Core.rotate(edges, edges, Core.ROTATE_90_CLOCKWISE);
         Imgproc.resize(edges, edges, new Size(DIM_WIDTH, DIM_HEIGHT));
-        return edges;
-    }
-
-    Mat debugMat(Mat mat) {
-
-        Mat edges = new Mat(mat.size(), CvType.CV_8UC1);
-        Imgproc.Canny(mat, edges, 50, 200);
-
-        Mat element1 = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new org.opencv.core.Size(3, 3));
-        Imgproc.dilate(edges, edges, element1);
-        //Mat element = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new org.opencv.core.Size(2,2));
-        //Imgproc.erode(edges, edges, element);
-
         return edges;
     }
 
