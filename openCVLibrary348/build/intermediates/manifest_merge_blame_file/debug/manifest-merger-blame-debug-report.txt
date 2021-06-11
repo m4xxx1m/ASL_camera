@@ -6,8 +6,8 @@
 6
 7    <uses-sdk
 8        android:minSdkVersion="8"
-8-->D:\AI\asdf\ASL-Assist-Android-Mobile-App\openCVLibrary348\src\main\AndroidManifest.xml
+8-->C:\Users\Student\AI_with_Intel\myASL\ASL_camera\openCVLibrary348\src\main\AndroidManifest.xml
 9        android:targetSdkVersion="29" />
-9-->D:\AI\asdf\ASL-Assist-Android-Mobile-App\openCVLibrary348\src\main\AndroidManifest.xml
+9-->C:\Users\Student\AI_with_Intel\myASL\ASL_camera\openCVLibrary348\src\main\AndroidManifest.xml
 10
 11</manifest>

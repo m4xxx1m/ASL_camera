@@ -19,7 +19,7 @@ import java.util.List;
 
 class Classifier {
 //    private static final String TAG = "Tflite";
-    private static final String MODEL = "mobilenet.tflite";
+    private static final String MODEL = "model.tflite";
     private static final String LABEL = "labels.txt";
     private static final int DIM_HEIGHT = 80;
     private static final int DIM_WIDTH = 80;
